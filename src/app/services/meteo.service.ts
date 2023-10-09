@@ -27,13 +27,13 @@ export class MeteoService {
       const forecast: Forecast = {
         time: new Date(data.hourly.time[i]),
         cloudCover: data.hourly.cloudcover[i],
-        windSpeed: data.hourly.windspeed_10m[i],
+        windSpeed: this.fromKmHToKnot(data.hourly.windspeed_10m[i]),
         precipitation: data.hourly.precipitation_probability[i],
         humidity: data.hourly.relativehumidity_2m[i],
         temperature: data.hourly.temperature_2m[i],
         weatherCode: data.hourly.weathercode[i],
         cloudCoverUnit: data.hourly_units.cloudcover,
-        windSpeedUnit: data.hourly_units.windspeed_10m,
+        windSpeedUnit: 'Kn',
         precipitationUnit: data.hourly_units.precipitation_probability,
         humidityUnit: data.hourly_units.relativehumidity_2m,
         temperatureUnit: data.hourly_units.temperature_2m
@@ -44,6 +44,31 @@ export class MeteoService {
 
 
     return tempArray;
+
+
+    // return data.hourly.time.map((_:any, i:number) => ({
+    //     time: new Date(data.hourly.time[i]),
+    //     cloudCover: data.hourly.cloudcover[i],
+    //     windSpeed: data.hourly.windspeed_10m[i],
+    //     precipitation: data.hourly.precipitation_probability[i],
+    //     humidity: data.hourly.relativehumidity_2m[i],
+    //     temperature: data.hourly.temperature_2m[i],
+    //     weatherCode: data.hourly.weathercode[i],
+    //     cloudCoverUnit: data.hourly_units.cloudcover,
+    //     windSpeedUnit: data.hourly_units.windspeed_10m,
+    //     precipitationUnit: data.hourly_units.precipitation_probability,
+    //     humidityUnit: data.hourly_units.relativehumidity_2m,
+    //     temperatureUnit: data.hourly_units.temperature_2m
+    // }))
+  }
+
+  fromKmHToKnot(speed: number): number{
+
+    const knot = speed / 1.852;
+
+    const roundedKnot = Math.round(knot)
+
+    return roundedKnot;
   }
 
 }
